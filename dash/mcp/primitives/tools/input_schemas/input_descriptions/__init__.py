@@ -13,11 +13,13 @@ from dash.mcp.types import MCPInput
 from .description_component_props import component_props_description
 from .description_docstrings import docstring_prop_description
 from .description_html_labels import label_description
+from .description_pattern_matching import pattern_matching_description
 
 _SOURCES = [
     docstring_prop_description,
     label_description,
     component_props_description,
+    pattern_matching_description,
 ]
 
 
