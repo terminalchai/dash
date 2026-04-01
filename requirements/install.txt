@@ -8,3 +8,4 @@ retrying
 nest-asyncio
 setuptools
 pydantic>=2.12.5
+mcp>=1.0.0
