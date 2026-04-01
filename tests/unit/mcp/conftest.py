@@ -6,6 +6,7 @@ avoiding the MCP server so they can be used before the server is wired up.
 
 from dash import Dash, Input, Output, html
 from dash._get_app import app_context
+from dash.mcp.primitives.tools import call_tool, list_tools
 from dash.mcp.primitives.tools.callback_adapter_collection import (
     CallbackAdapterCollection,
 )
@@ -39,10 +40,10 @@ def _make_app(**kwargs):
 
 
 def _tools_list(app):
-    """Return tools as Tool objects via as_mcp_tools()."""
+    """Return all tools (callbacks + builtins) as Tool objects."""
     _setup_mcp(app)
     with app.server.test_request_context():
-        return app.mcp_callback_map.as_mcp_tools()
+        return list_tools().tools
 
 
 def _user_tool(tools):
@@ -78,3 +79,10 @@ def _desc_for(tool, param_name=None):
     if param_name is None:
         param_name = next(iter(props))
     return props[param_name].get("description", "")
+
+
+def _call_tool(app, tool_name, arguments=None):
+    """Call a tool via the dispatch pipeline and return the CallToolResult."""
+    _setup_mcp(app)
+    with app.server.test_request_context():
+        return call_tool(tool_name, arguments or {})
